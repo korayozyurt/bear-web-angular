@@ -1,0 +1,206 @@
+the example code : <a href="https://stackblitz.com/edit/angular-file-upload-preview-k6dnu5?file=app%2Fapp.component.css">is here</a>
+
+<div *ngIf="userObservable | async as user; else noData">
+  <div class="ui-g">
+    <div class="ui-g-offset-4">
+      <h3 style="font-family: 'Palatino Linotype'">Profili Düzenle</h3>
+    </div>
+  </div>
+
+  <!-- user description -->
+  <p-fieldset legend="{{user.username}}">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-1"></div>
+      <div class="ui-g-2">
+        <label class="hoverable-avatar" for="fileInput">
+          <img [src]="url ? url : endpoint + '/file/' + user.avatarPath">
+          <div class="hover-text">Choose file</div>
+          <div class="background"></div>
+        </label>
+        <br/>
+        <input id="fileInput" type='file' (change)="onSelectFile($event)">
+        <button *ngIf="url" (click)="delete()" >delete</button>
+      </div>
+      <div class="ui-g-9">
+        <div class="description-container" [ngStyle]="{'padding': !descriptionEditMode ? '10px' : '0'}">
+          <div *ngIf="!descriptionEditMode" class="description-p-div">
+            <p style="white-space: pre-wrap;">{{user.userDescription}}</p>
+          </div>
+          <div *ngIf="descriptionEditMode">
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon"><i class="fab fa-discourse"></i></span>
+              <textarea type="text" pInputText class="description-text-area" [(ngModel)]="user.userDescription" [formControl]="userDescriptionFormControl"></textarea>
+            </div>
+          </div>
+          <div class="user-description-button-container">
+            <button class="user-description-button" (click)="descriptionEditClicked()"><i class="fas fa-pencil-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button pButton type="button" label="Güncelle" *ngIf="descriptionEditMode" class="updateButton" (click)="descriptionUpdateClicked()"></button>
+  </p-fieldset>
+
+  <!-- Kullanıcı Bilgileri -->
+  <p-fieldset legend="Kullanıcı Bilgileri">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+          <input type="text" pInputText placeholder="İsim"
+                 [(ngModel)]="user.name"
+                 [formControl]="nameFormControl">
+        </div>
+        <div>
+          <p-message severity="error" text="Isim girmek zorunludur" *ngIf="!nameFormControl.valid && nameFormControl.dirty"></p-message>
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+          <input type="text" pInputText placeholder="Soyisim" [(ngModel)]="user.surname" [formControl]="surnameFormControl">
+        </div>
+        <div>
+          <p-message severity="error" text="Soyisim girmek zorunludur" *ngIf="!surnameFormControl.valid && surnameFormControl.dirty"></p-message>
+        </div>
+      </div>
+    </div>
+    <button pButton label="Güncelle" class="updateButton" *ngIf="nameFormControl.dirty || surnameFormControl.dirty" (click)="updateNameSurnameClicked()"></button>
+  </p-fieldset>
+
+  <p-fieldset legend="Şifre Güncelleme Alanı">
+    <form [formGroup]="passwordForm" (ngSubmit)="passwordChangeClicked()">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-4">
+          <div class="ui-inputgroup">
+            <span class="formLabel">Şifreniz: </span><span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+            <input type="password" pPassword autocomplete placeholder="Şifreniz" formControlName="currentPassword">
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4">
+          <div class="ui-inputgroup">
+            <span class="formLabel">Yeni Şifreniz: </span><span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+            <input type="password" pPassword autocomplete placeholder="Yeni Şifreniz" formControlName="newPassword">
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4">
+          <div class="ui-inputgroup">
+            <span class="formLabel">Yeni Şifreniz Tekrar: </span><span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+            <input type="password" pPassword autocomplete placeholder="Şifre Tekrar" formControlName="newPasswordValidator">
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g ui-fluid">
+        <p-message severity="error" text="{{errorMessage}}" *ngIf="errorMessage !== ''"></p-message>
+      </div>
+
+      <button class="updateButton" pButton type="submit" [disabled]="passwordForm.pristine || (!passwordForm.valid
+                              || (passwordForm.controls['newPassword'].value !== passwordForm.controls['newPasswordValidator'].value))" label="Şifre Değiştir"></button>
+    </form>
+  </p-fieldset>
+
+  <p-fieldset legend="E-posta">
+    <form [formGroup]="emailForm" (ngSubmit)="emailChangeClicked()">
+      <div class="ui-g ui-fluid">
+        <div id="userEmailDiv" class="ui-g-12 ui-md-2">
+          <span>{{bearUser.email}}</span>
+        </div>
+
+        <div class="ui-g-12 ui-md-5">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></span>
+            <input type="text" pInputText placeholder="Yeni Email" formControlName="newEmail">
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-5">
+         <div class="ui-inputgroup">
+           <span class="formLabel">Şifreniz: </span><span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+           <input type="password" autocomplete pPassword placeholder="Şifreniz" formControlName="currentPassword">
+         </div>
+        </div>
+      </div>
+
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-5 ui-md-offset-2">
+          <p-message severity="error" text="Lütfen geçerli e-posta girin"
+                     *ngIf="emailForm.controls['newEmail'].invalid && emailForm.controls['newEmail'].errors.email"></p-message>
+
+        </div>
+      </div>
+
+      <button class="updateButton" pButton type="submit"
+              [disabled]="emailForm.pristine || emailForm.invalid || emailForm.controls['newEmail'].value == bearUser.email"
+              label="Güncelle"></button>
+    </form>
+  </p-fieldset>
+
+  <p-fieldset legend="Diğer Bilgiler">
+    <form [formGroup]="communicationForm" (ngSubmit)="submitCommunicationFormClicked()">
+      <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fas fa-city"></i></span>
+            <p-autoComplete type="text" [(ngModel)]="user.city" [suggestions]="filteredCities" placeholder="Şehir" (completeMethod)="getCity($event)" formControlName="city"></p-autoComplete>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fas fa-phone"></i></span>
+            <p-inputMask [(ngModel)]="user.phoneNumber" mask="(999) 999 99 99" placeholder="(999) 999 99 99" formControlName="phoneNumber"></p-inputMask>
+          </div>
+        </div>
+      </div>
+
+      <button class="updateButton" pButton type="submit"
+              [disabled]="communicationForm.pristine ||
+              !communicationForm.controls['city'].value ||
+              !communicationForm.controls['phoneNumber'].value"
+              label="Güncelle"></button>
+    </form>
+  </p-fieldset>
+
+</div>
+
+
+<ng-template #noData>
+  <div class="p-grid p-align-center vertical-container">
+    <div class="p-col"></div>
+    <div class="p-col"><p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#FFFFFF" animationDuration=".5s"></p-progressSpinner></div>
+  </div>
+</ng-template>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

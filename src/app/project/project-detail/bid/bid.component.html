@@ -1,0 +1,58 @@
+<form [formGroup]="bidForm" (ngSubmit)="onSubmit()">
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+      <div class="ui-g-2">
+        <span>Açıklama</span>
+      </div>
+      <div class="ui-g-8">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fas fa-file-prescription"></i></span>
+          <textarea  pInputTextarea placeholder="Teklif mesajı" formControlName="description"></textarea>
+        </div>
+      </div>
+      <div class="ui-g-2" [ngStyle]="{'color': bidForm.controls['description'].value.length < 200 ? '#43A047' : '#F44336'}">
+        {{200 - bidForm.controls['description'].value.length}} karakter
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <p-message severity="error" text="Tek Cümlelik proje açıklaması giriniz" *ngIf="bidForm.controls['description'].value.length == 0 && bidForm.controls['description'].dirty"></p-message>
+      <p-message severity="error" text="Açıklama 200 karakterden fazla olmamalı!" *ngIf="bidForm.controls['description'].value.length > 200"></p-message>
+    </div>
+
+    <div class="ui-g-12">
+      <div class="ui-g-2">
+        <span>Ücret: </span>
+      </div>
+      <div class="ui-g-4">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-credit-card"></i></span>
+          <span class="ui-inputgroup-addon"><i class="fas fa-lira-sign"></i></span>
+          <input type="text" formControlName="bidAmount" pInputText placeholder="Price" pKeyFilter="num" >
+        </div>
+      </div>
+    </div>
+    <p-message severity="error" text="Geçersiz ücret" *ngIf="priceValidator()"></p-message>
+    <p-message severity="error" text="Teklif miktarı giriniz" *ngIf="bidForm.controls['bidAmount'].value.length == 0 && bidForm.controls['bidAmount'].dirty"></p-message>
+
+    <div class="ui-g-12">
+      <div class="ui-g-2">
+        <span>Tahmini bitirme süresi: </span>
+      </div>
+      <div class="ui-g-4 ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fas fa-stopwatch"></i></span>
+        <input type="text" formControlName="days" pKeyFilter="int" pInputText placeholder="X Days">
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <hr class="divider">
+    </div>
+
+    <div class="ui-g-12">
+      <div class="ui-g-2">
+        <button pButton type="submit" icon="pi pi-arrow-circle-up" iconPos="left" label="Teklif yap"></button>
+      </div>
+    </div>
+
+  </div>
+</form>

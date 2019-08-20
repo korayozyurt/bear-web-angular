@@ -1,0 +1,10 @@
+<div [ngClass]="{
+            'bear-selector':router.url === '/login'
+        }">
+  <bear-navigation></bear-navigation>
+  <bear-side-navbar *ngIf="router.url !== '/login'"></bear-side-navbar>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

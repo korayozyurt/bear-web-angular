@@ -1,0 +1,113 @@
+
+<div class="ui-g" *ngIf="projectObservable | async as project; else noData">
+
+  <div class="ui-g-12">
+    <p-panel header="{{project.projectOwner}} -- {{project.projectCategory}} Projesi" [toggleable]="true">
+      <p-scrollPanel [style]="{width: '100%', height: '600px'}" styleClass="descriptionScrollBar">
+        <div class="descriptionContent" [innerHTML]="project.description"></div>
+      </p-scrollPanel>
+      <p-footer>
+        <p-button icon="fas fa-lira-sign" [label]="bidButtonMessage" [disabled]="userBade" style="margin-right: .25em" (click)="bid()"></p-button>
+        <button pButton type="button" icon="fas fa-exclamation-triangle" label="Problem bildir" class="ui-button-secondary"></button>
+      </p-footer>
+    </p-panel>
+  </div>
+
+</div>
+
+<div *ngIf="bidObservable | async as bids; else noData">
+  <p-dataView #dv [value]="bids" [paginator]="true" [rows]="10" paginatorPosition="both" >
+    <p-header>
+      <div class="ui-helper-clearfix">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-md-offset-11">
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+          </div>
+        </div>
+      </div>
+    </p-header>
+    <ng-template let-bid pTemplate="listItem">
+      <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+
+        <div class="ui-g-12 ui-md-1" style="text-align: center; align-self: center">
+          <img [src]="requestUrl + '/file/' + bid.user.avatarPath" width="60px" height="60px" style="align-items: center">
+        </div>
+
+        <div class="ui-g-12 ui-md-4">
+          <div class="ui-g">
+            <div class="ui-g-2 ui-sm-6">Kullanıcı: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{bid.user.username}}</b></div>
+
+            <div class="ui-g-2 ui-sm-6">Açıklama: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{bid.description}}</b></div>
+
+            <div class="ui-g-2 ui-sm-6">Teklif: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{bid.bidAmount}} ₺</b></div>
+
+            <div class="ui-g-2 ui-sm-6">Ortalama bitirme süresi: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{bid.days}} Gün</b></div>
+
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-3 content-detail">
+          <p-rating [(ngModel)]="bid.user.rating" readonly="true" [cancel]="false"></p-rating>
+        </div>
+
+        <div class="ui-g-12 ui-md-1 ui-md-offset-3 content-detail">
+          <button pButton type="button" icon="pi pi-search" (click)="onSelectedBid($event, bid)" style="margin-top:0"></button>
+        </div>
+
+      </div>
+    </ng-template>
+    <ng-template let-bid pTemplate="gridItem">
+      <div style="padding: .5em" class="ui-g-12 ui-md-3">
+        <p-panel [header]="bid.user.username" [style]="{'text-align':'center'}">
+          <img [src]="requestUrl + '/file/' + bid.user.avatarPath" width="60px" height="60px">
+          <div>{{bid.description}}</div>
+          <div><i>{{bid.bidAmount}} ₺</i></div>
+          <hr class="ui-widget-content" style="border-top:0">
+          <button pButton type="button" icon="pi pi-search" (click)="onSelectedBid($event, bid)" style="margin-top:0"></button>
+        </p-panel>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
+
+<p-dialog header="Teklif Detayları" [(visible)]="bidSelectedDialog" [responsive]="true" showEffect="fade" [modal]="true"  (onAfterHide)="onBidDialogHide()">
+  <div class="ui-g" *ngIf="selectedBid">
+    <div class="ui-g-12" style="text-align: center">
+      <div class="ui-g-12" style="text-align: center">
+        <img [src]="requestUrl + '/file/' + selectedBid.user.avatarPath" width="60px" height="60px">
+      </div>
+
+      <div class="ui-g-4"><b>Kullanıcı:</b> </div>
+      <div class="ui-g-8">{{selectedBid.user.username}}</div>
+
+      <div class="ui-g-4"><b>Teklif Mesajı:</b> </div>
+      <div class="ui-g-8">{{selectedBid.description}}</div>
+
+      <div class="ui-g-4"><b>Teklif:</b> </div>
+      <div class="ui-g-8"><i>{{selectedBid.bidAmount}} ₺</i></div>
+
+    </div>
+  </div>
+
+  <p-footer>
+    <p-button icon="fas fa-envelope" label="Mesaj At" style="margin-right: .25em"></p-button>
+    <button pButton label="Teklifi Kabul Et" id="acceptBidButton">
+      <span class="fa-stack">
+        <i class="fas fa-circle fa-stack-2x" style="color: #000000;"></i>
+        <i class="fas fa-marker fa-stack-1x"></i>
+      </span>
+    </button>
+  </p-footer>
+</p-dialog>
+
+<ng-template #noData>
+  <div class="p-grid p-align-center vertical-container">
+    <div class="p-col"></div>
+    <div class="p-col"><p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#FFFFFF" animationDuration=".5s"></p-progressSpinner></div>
+  </div>
+</ng-template>
+

@@ -1,0 +1,20 @@
+.sidenavbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidenavbar li a {
+  display: block;
+  color: black;
+  padding: 9px 17px;
+  text-decoration: none;
+}
+
+.sidenavbar li a:hover {
+  border: blue solid 1px;
+}
+
+.sidenavbar hr {
+  opacity: 0.4;
+}

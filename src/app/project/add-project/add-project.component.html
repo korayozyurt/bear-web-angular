@@ -1,0 +1,55 @@
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <p-fieldset legend="Proje Ekle" [transitionOptions]="'400ms'">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-6">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fas fa-project-diagram"></i></span>
+          <input type="text" pInputText placeholder="projectCategory" formControlName="projectCategory">
+        </div>
+      </div>
+      <div class="ui-g-4 ">
+        <p-message severity="error" text="Proje Kategorisi Giriniz" *ngIf="!projectForm.controls['projectCategory'].valid && projectForm.controls['projectCategory'].dirty"></p-message>
+      </div>
+    </div>
+
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-6">
+        <bear-file-upload
+          [isImage]="true"
+          (fileUrlObserver)="fileUrlObserver($event)">
+        </bear-file-upload>
+      </div>
+    </div>
+
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-6">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fas fa-file-prescription"></i></span>
+          <textarea  pInputTextarea placeholder="Kısa Proje Açıklaması" formControlName="smallDescription"></textarea>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-offset-10 characterLeft" [ngStyle]="{'color':projectForm.controls['smallDescription'].value.length < 200 ? '#43A047' : '#F44336'}">{{200 - projectForm.controls['smallDescription'].value.length}} karakter</div>
+        </div>
+      </div>
+      <div class="ui-g-4 ">
+        <p-message severity="error" text="Tek Cümlelik proje açıklaması giriniz" *ngIf="projectForm.controls['smallDescription'].value.length == 0 && projectForm.controls['smallDescription'].dirty"></p-message>
+        <p-message severity="error" text="Açıklama 200 karakterden fazla olmamalı!" *ngIf="projectForm.controls['smallDescription'].value.length > 200"></p-message>
+      </div>
+    </div>
+
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-6">
+        <p-editor placeholder="Proje Açıklaması"
+                  formControlName="description"
+                  [style]="{'height':'320px'}"></p-editor>
+      </div>
+      <div class="ui-g-4">
+        <p-message severity="error" text="Açıklama Giriniz" *ngIf="!projectForm.controls['description'].valid && projectForm.controls['description'].dirty"></p-message>
+      </div>
+    </div>
+
+    <button pButton type="submit" icon="fas fa-plus-square" label="Projeyi Kaydet"></button>
+  </p-fieldset>
+</form>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

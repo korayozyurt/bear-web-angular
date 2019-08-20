@@ -1,0 +1,26 @@
+.content-section {
+  display: block;
+  padding: 30px;
+}
+
+:host ::ng-deep .ui-carousel-header {
+  display: flex;
+  justify-content: center;
+  background: #2979FF !important;
+}
+
+:host ::ng-deep .ui-carousel-next-button {
+  color: #FFFFFF !important;
+}
+
+:host ::ng-deep .ui-carousel-prev-button {
+  color: #FFFFFF !important;
+}
+
+:host ::ng-deep .ui-carousel-page-link {
+  color: #FFFFFF !important;
+}
+
+:host ::ng-deep .ui-carousel-header-title	{
+  color: #FFFFFF;
+}

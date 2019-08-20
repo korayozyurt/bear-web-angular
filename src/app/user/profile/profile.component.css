@@ -1,0 +1,136 @@
+:host {
+  --description-height: 200px;
+}
+
+p {
+  font-family: Lato;
+}
+
+.hoverable-avatar img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+
+.hoverable-avatar {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  height: 200px;
+  width: 200px;
+  border: 5px solid #000;
+  border-radius: 50%;
+}
+
+.hoverable-avatar .hover-text {
+  position: absolute;
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 2;
+}
+
+.hoverable-avatar .background {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(255,255,255,0.5);
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.hoverable-avatar:hover .hover-text{
+  display: block;
+}
+
+.hoverable-avatar:hover .background {
+  display: block;
+}
+
+#fileInput {
+  display: none;
+}
+
+.description-container {
+  font: italic 1.2em "Fira Sans", serif;
+  position: relative;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.description-p-div {
+  height: var(--description-height);
+  overflow: auto;
+}
+
+.description-text-area {
+  width: 100%;
+  height: var(--description-height);
+}
+
+.scrollbar {
+  background-color: #F5F5F5;
+  float: left;
+  height: 300px;
+  margin-bottom: 25px;
+  margin-left: 22px;
+  margin-top: 40px;
+  width: 65px;
+  overflow-y: scroll;
+}
+
+.user-description-button-container {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+}
+
+.user-description-button {
+  background: #F5F5F5;
+  border-radius: 50px;
+  border-color: var(--theme-blue-gray);
+}
+
+.user-description-button:focus {
+  outline: none;
+}
+
+.user-description-button > i {
+  color: #B0BEC5;
+  font-size: 1.4em
+}
+
+.user-description-button:hover {
+  border-color: var(--theme-light-color);
+}
+
+.user-description-button:hover > i {
+  color: var(--theme-light-color)
+}
+
+.updateButton {
+  float: right;
+}
+
+.formLabel {
+  margin: auto;
+  text-align: center;
+  font-weight: 700;
+  padding-right: 10px;
+}
+
+#userEmailDiv {
+  margin: auto;
+  text-align: center;
+  font: italic 1.3em "Fira Sans", serif;
+}
+
+
+
+
+

@@ -1,0 +1,43 @@
+.descriptionContent {
+  padding: 1em;
+  line-height: 1.5;
+}
+
+.descriptionScrollBar  .ui-scrollpanel-wrapper {
+  border-right: 9px solid #f4f4f4;
+}
+
+.descriptionScrollBar .ui-scrollpanel-bar {
+  background-color: #2196F3;
+  opacity: 1;
+  transition: background-color .3s;
+}
+
+.descriptionScrollBar .ui-scrollpanel-bar:hover {
+  background-color: #1565C0;
+}
+
+.ui-panel-title {
+  font-weight: bold;
+}
+
+.ui-button-secondary {
+  float: right;
+}
+
+body .ui-rating a {
+  color: #B71C1C;
+}
+
+.content-detail {
+  align-self: center;
+  margin-bottom: 5%;
+}
+
+#acceptBidButton .ui-button-text {
+  display: inline-block;
+}
+
+body .ui-rating:not(.ui-state-disabled):not(.ui-rating-readonly) a:hover {
+  color: #B71C1C !important;
+}

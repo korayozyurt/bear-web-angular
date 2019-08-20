@@ -1,0 +1,15 @@
+<header>
+  <div class="nav-container">
+    <a routerLink="/" class="logo">{{appTitle}}</a>
+    <nav>
+      <ul>
+        <li><a routerLink="/"><i class="pi pi-home">Anasayfa</i></a></li>
+        <li><a routerLink="project"><i class="pi pi-shopping-cart">Projeler</i></a></li>
+        <li *ngIf="!username"><a routerLink="login"><i class="pi pi-sign-in">Giriş Yap</i></a></li>
+        <li *ngIf="!username"><a routerLink="register"><i class="pi pi-user-plus">Kayıt Ol</i></a></li>
+        <li *ngIf="username"><a routerLink="profile"><i class="pi pi-user">Profilim</i></a></li>
+        <li *ngIf="username"><a routerLink="" (click)="signOut()"><i class="pi pi-sign-out">Çıkış</i></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

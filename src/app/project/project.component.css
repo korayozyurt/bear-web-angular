@@ -1,0 +1,13 @@
+.addProjectButton {
+  float: right;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+::ng-deep .ui-card-content {
+  min-height: 95px;
+}
+
+.vertical-container {
+  height: -webkit-fill-available;
+}

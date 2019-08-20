@@ -1,0 +1,44 @@
+<div class="bearDropZone"
+     bearFileDropZone
+     (hovered)="toggleHover($event)"
+     (dropped)="startUpload($event)"
+     [class.hovering]="isHovering">
+
+  <div class="file" *ngIf="!filename; else test">
+    <h3>Dosyayı Sürükleyip&Bırakın</h3>
+    <label class="file-label">
+      <input class="file-input" type="file" (change)="startUpload($event.target.files)">
+
+      <span class="file-cta">
+          <span class="file-icon">
+            <i class="fa fa-upload"></i>
+          </span>
+          <span class="file-label">
+            ve ya dosya seçin...
+          </span>
+      </span>
+
+    </label>
+  </div>
+
+  <ng-template #test>
+    <div class="remove-file">
+      <i class="fa-2x" [ngClass]="{
+          'far fa-image' : file.type.split('/')[0] === 'image',
+          'fas fa-folder' : file.type.split('/')[0] !== 'image'
+      }"></i>
+      <span>{{filename}}</span> <button (click)="removeFile()">
+      <i class="fas fa-times fa-2x"></i></button>
+    </div>
+  </ng-template>
+</div>
+
+<div *ngIf="percentage | async as pct;else progressNotStarted">
+  <p-progressBar [value]="pct | number: '1.0-0'"></p-progressBar>
+</div>
+
+<ng-template #progressNotStarted>
+  <p-progressBar></p-progressBar>
+</ng-template>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

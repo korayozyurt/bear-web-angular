@@ -1,0 +1,109 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input type="text" pInputText placeholder="İsim" formControlName="name">
+      </div>
+      <div>
+        <p-message severity="error" text="İsim girmek zorunludur" *ngIf="!registerForm.controls['name'].valid && registerForm.controls['name'].dirty"></p-message>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input type="text" pInputText placeholder="Soyisim" formControlName="surname">
+      </div>
+      <div>
+        <p-message severity="error" text="Soyisim girmek zorunludur" *ngIf="!registerForm.controls['surname'].valid && registerForm.controls['surname'].dirty"></p-message>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></span>
+        <input type="text" pInputText placeholder="email" formControlName="email">
+      </div>
+      <div>
+        <p-message severity="error" text="email girmek zorunludur" *ngIf="!registerForm.controls['email'].valid && registerForm.controls['email'].dirty"></p-message>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input type="text" pInputText placeholder="Kullanıcı Adı" formControlName="username">
+      </div>
+    </div>
+
+    <div class="ui-g-12">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fab fa-discourse"></i></span>
+        <textarea type="text" pInputText placeholder="Kendinizi anlatın" formControlName="userDescription"></textarea>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+        <input type="password" pPassword placeholder="Şifreniz" formControlName="password">
+      </div>
+      <div>
+        <p-message severity="error" text="Şifre girmek zorunludur" *ngIf="!registerForm.controls['password'].valid && registerForm.controls['password'].dirty"></p-message>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fas fa-key"></i></span>
+        <input type="password" pPassword placeholder="Şifreniz (Tekrar)" [formControl]="passwordConfirmation">
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-12">
+      <p-message severity="error" text="Şifre girmek zorunludur"
+                 *ngIf="!passwordConfirmation.valid && passwordConfirmation.dirty"></p-message>
+    </div>
+
+    <div class="ui-g-12 ui-md-12">
+      <p-message severity="error" text="Şifreler Eşleşmiyor"
+                 *ngIf="passwordConfirmation.value !== registerForm.controls['password'].value && passwordConfirmation.dirty"></p-message>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fas fa-city"></i></span>
+        <p-autoComplete type="text" [suggestions]="filteredCities" placeholder="Şehir" (completeMethod)="getCity($event)" formControlName="city"></p-autoComplete>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fas fa-phone"></i></span>
+        <p-inputMask mask="(999) 999 99 99"placeholder="(999) 999 99 99" formControlName="phoneNumber"></p-inputMask>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-12">
+
+      <bear-file-upload
+        [isImage]="true"
+        (fileUrlObserver)="fileUrlObserver($event)">
+      </bear-file-upload>
+
+      <!--
+      <div *ngIf="percentage | async as pct">
+        <p-progressBar [value]="pct"></p-progressBar>
+      </div>
+      -->
+    </div>
+
+  </div>
+
+  <button pButton type="submit" [disabled]="submitDisabled" icon="pi pi-user-plus" label="Kayıt Ol"></button>
+
+</form>
+
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,34 @@
+<!-- Add project, if there is no logged account, open a model to register or login -->
+<p-button class="addProjectButton" icon="pi pi-plus" label="Proje Ekle" (onClick)="addProject()"></p-button>
+<p-dialog header="Uzaktan Eleman" [(visible)]="loginWarning" [modal]="true"
+          [responsive]="true" [style]="{width: '350px', minWidth: '200px'}"
+          [minY]="100" [baseZIndex]="10000" >
+  <span>Proje Ekleyebilmek için <a (click)="loginClicked()">Giriş</a> Yapınız. Hesabınız yoksa <a routerLink="/register">Kayıt</a> olunuz.</span><br>
+  <p-footer>
+    <p-button label="TAMAM" (click)="loginWarning = false "></p-button>
+  </p-footer>
+</p-dialog>
+
+
+<div class="ui-g" *ngIf="projectsObservalbe | async as projects; else noData">
+  <div class="ui-g-3" *ngFor="let project of projects">
+    <p-card header="{{project.projectOwner}}" subheader="Proje Açıklaması" [style]="{width: '350px'}">
+      <p-header>
+        <img src="{{bearGlobal.apiEndpoint}}/file/{{project.imagePath}}" width="50px" height="260px">
+      </p-header>
+      <div>
+        {{project.smallDescription}}
+      </div>
+      <p-footer>
+        <button pButton type="button" routerLink="project-detail/{{project.id}}" label="İncele" icon="pi pi-check" style="margin-right: .25em"></button>
+      </p-footer>
+    </p-card>
+  </div>
+</div>
+
+<ng-template #noData>
+  <div class="p-grid p-align-center vertical-container">
+    <div class="p-col"></div>
+    <div class="p-col"><p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#FFFFFF" animationDuration=".5s"></p-progressSpinner></div>
+  </div>
+</ng-template>

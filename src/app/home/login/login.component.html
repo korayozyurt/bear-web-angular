@@ -1,0 +1,28 @@
+<div class="login-page">
+  <div class="bear-login-form">
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <input type="text" placeholder="Kullanıcı Adı/E-posta" formControlName="username" />
+      <p-message severity="error" text="Bu alan zorunludur"
+                 *ngIf="!loginForm.controls['username'].valid && loginForm.controls['username'].dirty">
+      </p-message>
+      <input type="password" placeholder="Şifre" formControlName="password"/>
+      <p-message severity="error" text="Bu alan zorunludur"
+                 *ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].dirty">
+      </p-message>
+      <button type="submit" [disabled]="loginForm.pristine || loginForm.invalid">Giriş</button>
+      <p class="message">Kayıtlı değilmisiniz? <a href="register">Yeni bir hesap oluşturunuz</a></p>
+    </form>
+  </div>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-dialog [(visible)]="loadingDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70"
+          [maximizable]="true" [baseZIndex]="10000">
+  <p-header>
+    <div style="margin: auto; width: 50%;">
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+  </p-header>
+  <span>Giriş yapılıyor, bu işlem biraz uzun sürebilir.</span>
+</p-dialog>
