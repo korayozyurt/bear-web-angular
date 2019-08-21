@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyBrrJbUfGwmtG7CyO_3HzrSJ0G_yoMx9CM',
-    authDomain: 'uzaktan-eleman.firebaseapp.com',
-    databaseURL: 'https://uzaktan-eleman.firebaseio.com',
-    projectId: 'uzaktan-eleman',
-    storageBucket: 'uzaktan-eleman.appspot.com',
-    messagingSenderId: '1045981571531',
-    appId: '1:1045981571531:web:18de4f2f4e85ced0'
+    apiKey: '',
+    authDomain: 'u****-eleman.firebaseapp.com',
+    databaseURL: 'https://u****-eleman.firebaseio.com',
+    projectId: 'u****-eleman',
+    storageBucket: 'u***-eleman.appspot.com',
+    messagingSenderId: '1****1',
+    appId: '1:1****31:web:18****ed0'
   }
 };
 
